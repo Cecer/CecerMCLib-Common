@@ -1,5 +1,6 @@
 package com.cecer1.projects.mc.cecermclib.common.modules;
 
+import com.cecer1.projects.mc.cecermclib.common.CecerMCLib;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.HashMap;
@@ -71,7 +72,9 @@ public final class ModuleManager {
         this.registrationStarted = true;
 
         System.out.println("[CecerMCLib] [ModuleManager] Registering modules...");
-        ModuleRegistrationCallback.EVENT.invoker().handle(new ModuleRegistrationCallback.RegistrationContext(this));
+        ModuleRegistrationCallback.RegistrationContext ctx = new ModuleRegistrationCallback.RegistrationContext(this);
+        CecerMCLib.getEnvironment().registerModules(ctx);
+        ModuleRegistrationCallback.EVENT.invoker().handle(ctx);
         System.out.println("[CecerMCLib] [ModuleManager] Modules registered: " + this.modules.size());
         
         System.out.println("[CecerMCLib] [ModuleManager] Checking module dependencies...");
