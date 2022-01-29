@@ -9,7 +9,7 @@ public final class ModuleManager {
 
     private final Map<Class<? extends IModule>, IModule> modules;
     private final Map<Class<? extends IModule>, Class<? extends IModule>> serviceModules;
-    private volatile boolean registrationComplete;
+    private volatile boolean registrationStarted;
 
     public ModuleManager() {
         this.modules = new HashMap<>();
@@ -17,10 +17,6 @@ public final class ModuleManager {
     }
 
     <TModule extends IModule> ModuleManager registerModule(@NonNull TModule module) {
-        if (this.registrationComplete) {
-            throw new IllegalStateException(String.format("Module registration of type \"%s\" attempted after module registration has completed", module.getClass().getName()));
-        }
-
         if (this.modules.putIfAbsent(module.getClass(), module) != null) {
             throw new UnsupportedOperationException(String.format("Duplicate module registration of type \"%s\"", module.getClass().getName()));
         }
@@ -37,9 +33,6 @@ public final class ModuleManager {
     @SuppressWarnings("RedundantStringFormatCall") // Because some environment break printf
     <TService extends IModule, TModule extends TService> ModuleManager registerServiceModule(Class<TService> serviceClass, TModule module) {
         Class<? extends IModule> moduleClass = module.getClass();
-        if (this.registrationComplete) {
-            throw new IllegalStateException(String.format("Service module registration of \"%s\" -> \"%s\" attempted after module registration has completed", serviceClass.getName(), moduleClass.getName()));
-        }
 
         if (this.modules.putIfAbsent(module.getClass(), module) != null) {
             throw new UnsupportedOperationException(String.format("Duplicate module registration of type \"%s\"", module.getClass().getName()));
@@ -72,10 +65,10 @@ public final class ModuleManager {
     }
     
     public void registerModules() {
-        if (this.registrationComplete) {
+        if (this.registrationStarted) {
             throw new IllegalStateException("Multiple call to ModuleManager#completeRegistration");
         }
-        this.registrationComplete = true;
+        this.registrationStarted = true;
 
         ModuleRegistrationCallback.EVENT.invoker().handle(new ModuleRegistrationCallback.RegistrationContext(this));
         
