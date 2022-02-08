@@ -6,7 +6,7 @@
 
     <groupId>com.cecer1.projects.mc.cecermclib</groupId>
     <artifactId>cecermclib-common</artifactId>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>0.1.6-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
