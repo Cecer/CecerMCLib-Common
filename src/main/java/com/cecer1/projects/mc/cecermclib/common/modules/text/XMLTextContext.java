@@ -355,6 +355,13 @@ class XMLTextParser {
             case "score": {
                 throw new UnsupportedOperationException("The score text component is not possible in a bungee environment.");
             }
+            case "font": {
+                this.parsingTextState = this.parsingTextState.newChild();
+                String fontId = event.getAttributeByName(new QName("id")).getValue();
+                this.parsingTextState = this.parsingTextState.newChild();
+                this.parsingTextState.setFont(fontId);
+                break;
+            }
             default: {
                 CecerMCLib.get(LoggerModule.class).getChannel(XMLTextContext.class).log("Unknown XMLText element: %s", name); // TODO: A better logging system
                 break;

@@ -5,6 +5,7 @@ import com.cecer1.projects.mc.cecermclib.common.modules.text.parts.Hover;
 
 public class TextState {
     private TextState parent;
+
     public TextState getParent() {
         if (this.parent == null) {
             throw new NullPointerException("Cannot get parent of root text state");
@@ -142,6 +143,17 @@ public class TextState {
         state.parent = this;
         return state;
     }
+    private String font;
+    public String getFont() {
+        if (this.font == null) {
+            return this.getParent().getFont();
+        }
+        return this.font;
+    }
+    public TextState setFont(String fontId) {
+        this.font = fontId;
+        return this;
+    }
     protected void resetAll() {
         this.setColor(TextColor.WHITE);
         this.setBold(false);
@@ -152,6 +164,7 @@ public class TextState {
         this.setClick(Click.NONE);
         this.setInsertion("");
         this.setHover(Hover.NONE);
+        this.setFont("minecraft:default");
     }
 
     public TextState newChild() {
