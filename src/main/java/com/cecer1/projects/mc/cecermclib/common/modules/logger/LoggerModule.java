@@ -43,7 +43,7 @@ public class LoggerModule<TChannel extends LoggerModule.Channel> implements IMod
         }
         protected void process(LogEntry entry) {
             String timestamp = Instant.ofEpochMilli(entry.getTimestamp()).atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
-            System.out.printf("[%s] [%s] %s%n", timestamp, entry.channel.getName(), entry.message);
+            System.out.printf("[%s] [%s] %s%n", timestamp, entry.getChannel().getName(), entry.getMessage());
         }
     }
 

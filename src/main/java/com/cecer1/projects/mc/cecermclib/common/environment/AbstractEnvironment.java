@@ -19,12 +19,15 @@ public abstract class AbstractEnvironment {
     }
     
     public void registerModules(ModuleRegistrationCallback.RegistrationContext ctx) {
-        ctx.registerModule(new LoggerModule<>(LoggerModule.Channel::new));
-        CecerMCLib.get(LoggerModule.class).getChannel(this.getClass()).log("Logger registered!");
-        
+        this.registerLogger(ctx);
 //        ctx.registerModule(new TextModule(this.createTextAdapter()))
 //        ctx.registerModule(new TreeMenuModule())
 //        ctx.registerModule(new TabCompleteModule());
+    }
+
+    protected void registerLogger(ModuleRegistrationCallback.RegistrationContext ctx) {
+        ctx.registerModule(new LoggerModule<>(LoggerModule.Channel::new));
+        CecerMCLib.get(LoggerModule.class).getChannel(this.getClass()).log("Logger registered!");
     }
 
     public enum Side {
