@@ -92,7 +92,7 @@ class XMLTextParser {
         this.out = new ArrayList<>();
         this.segmentsOut = new HashMap<>();
     }
-
+    
     public void parse(XMLEventReader reader) throws XMLStreamException {
         while(reader.hasNext()) {
             XMLEvent event = reader.nextEvent();
